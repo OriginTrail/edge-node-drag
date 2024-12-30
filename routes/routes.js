@@ -4,6 +4,7 @@ import { validateRequestParams } from "../middleware/validate.js";
 
 import exampleController from "../controllers/exampleSparqlController.js";
 import exampleVectorController from "../controllers/exampleVectorController.js";
+import controller from "../controllers/controller.js";
 
 const router = express.Router();
 
@@ -20,5 +21,7 @@ router.post(
   validateRequestParams,
   exampleVectorController.ask
 );
+
+router.post("/server/api/ask", validateRequestParams, controller.ask);
 
 export default router;

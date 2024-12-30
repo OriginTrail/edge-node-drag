@@ -10,9 +10,9 @@ export function formulateStandaloneQuestionPrompt(question, chatHistory) {
   The standalone question should be self-contained, reflecting the intent clearly without additional context needed. Respond with the standalone question only.`;
 }
 
-export function formulateOntologiesPrompt(question, ontologiess) {
+export function formulateOntologiesPrompt(question, ontologies) {
   return `Given the question "${question}", identify which ontologies from the provided list ${JSON.stringify(
-    ontologiess
+    ontologies
   )} directly relate to the question's themes and key terms. 
   Use exact matches where possible to select the most applicable ontologies. 
   Return the matching ontologies in a plain JSON array format, preserving the original descriptions exactly as provided. 
@@ -101,4 +101,53 @@ export function formulateDigitalDocumentTitlePrompt(standaloneQuestion) {
 
     Return only the title as where white space is replaced by | as provided in examples.
   `;
+}
+
+export function formulateGenericSparql(question, standaloneQuestion) {
+  return `
+  You are a SPARQL expert.
+
+**Original Question:**
+"${question}"
+
+**Standalone Question:**
+"${standaloneQuestion}"
+
+**UAL Format:**
+did:dkg:<blockchain>/<contract_address>/<collection_id>[/<asset_id>] (e.g., did:dkg:otp:20430/0xb4c24fc54bc811c2659c477b65da8648e499fd39/2205/2 or did:dkg:otp:20430/0xb4c24fc54bc811c2659c477b65da8648e499fd39/2205)
+
+**Task:**
+Analyze the original and standalone questions.
+
+- If a UAL is mentioned in the standalone question following the above format, generate a SPARQL query that targets the specific graph identified by that UAL. 
+- If no UAL is mentioned, generate a generic SPARQL query that retrieves all relevant data across all graphs.
+
+**Requirements:**
+- Return only the SPARQL query in plain text.
+- Do not include any formatting characters, markdown, or additional text.
+- Ensure the query is syntactically correct.
+
+**Examples:**
+
+1. **Question with UAL (Including Asset ID):**
+
+   **Original Question:**
+   Give me all data for this asset did:dkg:otp:20430/0xb4c24fc54bc811c2659c477b65da8648e499fd39/2205/2
+   
+   **Standalone Question:**
+   Give me all data for this asset did:dkg:otp:20430/0xb4c24fc54bc811c2659c477b65da8648e499fd39/2205/2
+   
+   **Generated SPARQL Query:**
+   SELECT ?s ?p ?o WHERE { GRAPH did:dkg:otp:20430/0xb4c24fc54bc811c2659c477b65da8648e499fd39/2205/2 { ?s ?p ?o } }
+
+2. **Question without UAL:**
+   
+   **Original Question:**
+   Who directed Mad Max?
+   
+   **Standalone Question:**
+   Who directed Mad Max?
+   
+   **Generated SPARQL Query:**
+   SELECT ?s ?p ?o WHERE { GRAPH ?g { ?s ?p ?o } } LIMIT 100`;
 }

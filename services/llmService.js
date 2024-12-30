@@ -5,7 +5,8 @@ import {
   formulateSparqlPrompt,
   formulateResponsePrompt,
   formulateContentTypePrompt,
-    formulateDigitalDocumentTitlePrompt
+  formulateDigitalDocumentTitlePrompt,
+  formulateGenericSparql,
 } from "../utils/prompts.js";
 
 class LLMService {
@@ -52,21 +53,30 @@ class LLMService {
     return provider.createChatCompletion(prompt);
   }
 
+  async createGenericQuery(question, standaloneQuestion) {
+    const provider = LLMProviderFactory.createProvider(this.sparqlConfig);
+    const prompt = formulateGenericSparql(question, standaloneQuestion);
+    return provider.createChatCompletion(prompt);
+  }
+
   async generateResponse(question, standaloneQuestion, data) {
     const provider = LLMProviderFactory.createProvider(this.responseConfig);
     const prompt = formulateResponsePrompt(question, standaloneQuestion, data);
     return provider.createChatCompletion(prompt);
   }
+
   async getContentType(standaloneQuestion) {
     const provider = LLMProviderFactory.createProvider(this.responseConfig);
     const prompt = formulateContentTypePrompt(standaloneQuestion);
     return provider.createChatCompletion(prompt);
   }
+
   async getDigitalDocumentTitle(standaloneQuestion) {
     const provider = LLMProviderFactory.createProvider(this.responseConfig);
     const prompt = formulateDigitalDocumentTitlePrompt(standaloneQuestion);
     return provider.createChatCompletion(prompt);
   }
+
   async createChatCompletion(prompt) {
     const provider = LLMProviderFactory.createProvider(this.responseConfig);
     return provider.createChatCompletion(prompt);

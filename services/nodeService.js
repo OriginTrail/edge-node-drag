@@ -9,11 +9,10 @@ class DKGService {
       maxNumberOfRetries: 30,
       frequency: 2,
       contentType: "all",
+      nodeApiVersion: "/v1",
     };
 
     this.queryConfig = {
-      graphLocation: "LOCAL_KG",
-      graphState: "CURRENT",
       // auth: { token: JWTToken },
     };
 
@@ -26,7 +25,7 @@ class DKGService {
   getDKGOptions(userData) {
     return {
       endpoint: userData.endpoint,
-      blockchain: userData.blockchain,
+      // blockchain: userData.blockchain,
       environment: userData.environment,
     };
   }
@@ -53,7 +52,10 @@ class DKGService {
     let results = [];
     for (const q of queries) {
       try {
-        if (userData.edgeNodePublishMode && userData.edgeNodePublishMode !== "public") {
+        if (
+          userData.edgeNodePublishMode &&
+          userData.edgeNodePublishMode !== "public"
+        ) {
           this.queryConfig.paranetUAL = userData.paranetUAL;
         }
         const result = await this.client.graph.query(
