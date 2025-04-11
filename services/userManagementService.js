@@ -8,7 +8,7 @@ dotenv.config('./env');
 const DRAG_USER_CONFIG_OPTION = 'drag_endpoint';
 const AUTH_ENDPOINT = process.env.AUTH_ENDPOINT;
 
-// Here you can change the LLM you are using, you can eather put anthropic or openai models. Just use the different key in the env file
+// Here you can change the LLM you are using, you can eather put anthropic, openai or ollama models. Just use the different key in the env file
 const baseUserData = {
     provider: 'openai',
     model: 'gpt-4o-mini',
