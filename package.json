@@ -23,6 +23,8 @@
         "@google-cloud/speech": "^6.0.1",
         "@huggingface/inference": "^2.8.0",
         "@langchain/community": "^0.2.27",
+        "@opentelemetry/api": "^1.9.0",
+        "@opentelemetry/auto-instrumentations-node": "^0.57.1",
         "@zilliz/milvus2-sdk-node": "^2.4.3",
         "axios": "^1.7.4",
         "cohere-ai": "^7.12.0",

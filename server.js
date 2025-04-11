@@ -1,4 +1,8 @@
 require('dotenv').config();
+if (process.env.OTEL_ENABLED?.toLowerCase() === 'true') {
+    require('@opentelemetry/auto-instrumentations-node/register');
+}
+
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
